@@ -1,1 +1,103 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.w-100{
+  width: 100%;
+}
+
+$sizeUnit: rem;
+$marginKey: 'm';
+$paddingKey: 'p';/*
+$separator: '';
+$allKey: 'a';
+$verticalKey: 'v';
+$horizontalKey: 'h';*/
+$positions: (
+  t: 'top',
+  r: 'right',
+  b: 'bottom',
+  l: 'left',
+);/*
+$sizes: (
+  n: 0,
+  xxs: 0.125,
+  xs: 0.25,
+  s: 0.5,
+  m: 1,
+  l: 2,
+  xl: 4,
+  xxl: 8,
+);*/
+
+/*
+// Defaults for bootstrap-style, see: https://getbootstrap.com/docs/4.0/utilities/spacing/*/
+$separator: '-';
+$allKey: '';
+$verticalKey: 'y';
+$horizontalKey: 'x';
+// Bootstrap uses different size steps:
+$sizes: (
+  0: 0,
+  1: 0.25,
+  2: 0.5,
+  3: 1,
+  4: 1.5,
+  5: 4,
+  auto: 'auto',
+);
+
+
+@function size-value($value) {
+  @if $value == 0 { @return $value; }
+
+  @if $value == 'auto' { @return $value; }
+
+  @return #{$value}#{$sizeUnit};
+}
+
+@each $sizeKey, $sizeValue in $sizes {
+
+  // "all" (top-right-bottom-left)
+  .#{$marginKey}#{$allKey}#{$separator}#{$sizeKey} {
+    margin: size-value($sizeValue);
+  }
+
+  .#{$paddingKey}#{$allKey}#{$separator}#{$sizeKey} {
+    padding: size-value($sizeValue);
+  }
+
+  // vertical (top-bottom)
+  .#{$marginKey}#{$verticalKey}#{$separator}#{$sizeKey} {
+    margin-top: size-value($sizeValue);
+    margin-bottom: size-value($sizeValue);
+  }
+
+  .#{$paddingKey}#{$verticalKey}#{$separator}#{$sizeKey} {
+    padding-top: size-value($sizeValue);
+    padding-bottom: size-value($sizeValue);
+  }
+
+  // horizontal (left-right)
+  .#{$marginKey}#{$horizontalKey}#{$separator}#{$sizeKey} {
+    margin-left: size-value($sizeValue);
+    margin-right: size-value($sizeValue);
+  }
+
+  .#{$paddingKey}#{$horizontalKey}#{$separator}#{$sizeKey} {
+    padding-left: size-value($sizeValue);
+    padding-right: size-value($sizeValue);
+  }
+
+  // each of top,right,bottom,left:
+  @each $posKey, $posValue in $positions {
+    .#{$marginKey}#{$posKey}#{$separator}#{$sizeKey} {
+      margin-#{$posValue}: size-value($sizeValue);
+    }
+
+    .#{$paddingKey}#{$posKey}#{$separator}#{$sizeKey} {
+      padding-#{$posValue}: size-value($sizeValue);
+    }
+  }
+}
