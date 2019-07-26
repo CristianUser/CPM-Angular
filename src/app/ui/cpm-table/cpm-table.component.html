@@ -9,7 +9,7 @@
       <th mat-header-cell *matHeaderCellDef> Actividad </th>
       <td mat-cell *matCellDef="let element">
           <mat-form-field class=" px-3">
-            <input matInput placeholder="Nombre" (change)="changeValue($event, element.id, 'name')" [value]="element.name">
+            <input matInput placeholder="Nombre" (change)="changeValue($event, element.id, 'name')" [(ngModel)]="element.name">
           </mat-form-field>
       </td>
       <td mat-footer-cell *matFooterCellDef> Total </td>
