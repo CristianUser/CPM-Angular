@@ -1,6 +1,15 @@
 <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="gappx">
     <app-header-toolbar></app-header-toolbar>
     <div fxLayout="row" class="m-3">
-        <app-cpm-table></app-cpm-table>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Gastos Administrativos</mat-label>
+            <input matInput placeholder="" mask="comma_separator" [(ngModel)]="administrativeCosts">
+            <mat-icon matSuffix>attach_money</mat-icon>
+            <!-- <mat-hint>Hint</mat-hint> -->
+        </mat-form-field>
+    </div>
+    <div fxLayout="row" class="m-3">
+        <app-cpm-table [administrativeCosts]="administrativeCosts"></app-cpm-table>
     </div>
 </div>

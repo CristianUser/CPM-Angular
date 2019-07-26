@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Activity } from 'src/app/interfaces/IActivity.interface';
+import { Component, OnInit, Input } from '@angular/core';
+import { Activity } from 'src/app/classes/IActivity.interface';
 
 export interface PeriodicElement {
   name: string;
@@ -18,55 +18,67 @@ export interface PeriodicElement {
 export class CpmTableComponent implements OnInit {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   activities: Activity[] = [
-    {
-      id: 0,
-      name: '',
-      isSet: false
-    }
     // {
-    //     id: 0,
-    //     name: 'A',
-    //     duration: 10,
-    //     cost: 100000
-    // },
-    // {
-    //     id: 1,
-    //     name: 'B',
-    //     duration: 5,
-    //     cost: 400000
-    // },
-    // {
-    //     id: 2,
-    //     name: 'C',
-    //     duration: 6,
-    //     requirements: [0, 1],
-    //     cost: 100000
-    // },
-    // {
-    //     id: 3,
-    //     name: 'F',
-    //     duration: 8,
-    //     requirements: [2],
-    //     cost: 150000
-    // },
-    // {
-    //     id: 4,
-    //     name: 'G',
-    //     duration: 10,
-    //     requirements: [2],
-    //     cost: 200000
-    // },
-    // {
-    //     id: 5,
-    //     name: 'H',
-    //     duration: 2,
-    //     requirements: [3, 4],
-    //     cost: 50000
+    //   id: 0,
+    //   name: '',
+    //   isSet: false
     // }
+    {
+        id: 0,
+        name: 'A',
+        duration: 10,
+        cost: 100000,
+        isSet: true
+    },
+    {
+        id: 1,
+        name: 'B',
+        duration: 5,
+        cost: 400000,
+        isSet: true
+    },
+    {
+        id: 2,
+        name: 'C',
+        duration: 6,
+        requirements: [0, 1],
+        cost: 100000
+    },
+    {
+        id: 3,
+        name: 'F',
+        duration: 8,
+        requirements: [2],
+        cost: 150000,
+        isSet: true
+    },
+    {
+        id: 4,
+        name: 'G',
+        duration: 10,
+        requirements: [2],
+        cost: 200000,
+        isSet: true
+    },
+    {
+        id: 5,
+        name: 'H',
+        duration: 2,
+        requirements: [3, 4],
+        cost: 50000,
+        isSet: true
+    }
 ];
-  constructor() { }
+  tempActivities: Activity[] = [];
+  criticPath = [];
+  totalCost = 0;
+  totalDuration = 0;
+  @Input() administrativeCosts;
+constructor() { }
 
   ngOnInit() {
+    this.addMissingRow();
+
   }
 
   getActivityById(id: number) {
@@ -84,10 +96,7 @@ export class CpmTableComponent implements OnInit {
     return [];
   }
 
-  changeValue($event, data, path) {
-    this.activities[data][path] = $event.target.value;
-    this.activities[data].isSet = true;
-
+  addMissingRow() {
     if (!this.activities.some(val => val.isSet === false)) {
       this.activities = [...this.activities,
         {
@@ -96,6 +105,64 @@ export class CpmTableComponent implements OnInit {
           isSet: false
         }];
       }
+  }
+
+  changeValue($event, data, path) {
+    this.activities[data][path] = $event.target.value;
+    this.activities[data].isSet = true;
+    this.addMissingRow();
+    this.totalDuration = this.getTotalDuration();
+    this.totalCost = this.getTotalCost();
+
+  }
+
+  canRun(activity: Activity) {
+    if (activity.requirements) {
+      for (const req of activity.requirements) {
+        if (!this.tempActivities.filter(temp => temp.id === req).length) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  isIncluded(activityIn: Activity) {
+    // return this.tempActivities.filter(activity => activity == activityIn).length;
+    return !!this.tempActivities.filter(temp => temp.id === activityIn.id).length;
+}
+
+getTotalDuration() {
+  // let totalDuration = 0;
+  this.criticPath = [];
+  this.tempActivities = [];
+  this.activities = this.activities.slice(0, this.activities.length - 1);
+  while (this.tempActivities.length < this.activities.length) {
+    const activity = this.activities.filter(activity => !this.isIncluded(activity))
+      .filter(activity => this.canRun(activity))
+      .reduce((prev, current) => (prev.duration > current.duration) ? prev : current);
+    // console.log(activity.duration);
+    // totalDuration += parseInt(activity.duration);
+    this.criticPath.push(activity);
+    this.tempActivities.push(...this.activities.filter(activity => !this.isIncluded(activity)).filter(activity => this.canRun(activity)));
+    }
+    // console.log(this.criticPath);
+  this.totalDuration = this.criticPath.reduce((total, current) => {
+    return total += parseInt(current.duration);
+}, 0);
+  this.addMissingRow();
+  return this.totalDuration;
+}
+
+getTotalCost() {
+    const duration = this.totalDuration;
+    this.activities = this.activities.slice(0, this.activities.length - 1);
+    const total = this.activities.reduce((total, current) => {
+      return total += parseInt(current.cost) * parseInt(current.duration);
+    }, 0);
+    // console.log(total)
+    this.totalCost = total + (duration *  this.administrativeCosts);
+    return this.totalCost;
   }
 
 }

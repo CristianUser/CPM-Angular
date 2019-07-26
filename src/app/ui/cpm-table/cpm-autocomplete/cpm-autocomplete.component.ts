@@ -5,7 +5,7 @@ import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/a
 import {MatChipInputEvent} from '@angular/material/chips';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
-import { Activity } from 'src/app/interfaces/IActivity.interface';
+import { Activity } from 'src/app/classes/IActivity.interface';
 
 @Component({
   selector: 'app-cpm-autocomplete',

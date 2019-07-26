@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./cpm-ui.component.scss']
 })
 export class CpmUiComponent implements OnInit {
+  administrativeCosts = 0;
 
   constructor() { }
 
