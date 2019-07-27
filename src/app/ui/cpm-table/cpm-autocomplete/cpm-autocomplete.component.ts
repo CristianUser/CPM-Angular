@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {FormControl} from '@angular/forms';
 import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
@@ -25,6 +25,7 @@ export class CpmAutocompleteComponent implements OnInit {
   @Input() setitems: Activity[] = [];
   items: Activity[] = [];
   @Input() allItems: Activity[] = [];
+  @Output() onChange= new EventEmitter<Activity[]>();
 
   @ViewChild('itemInput', {static: false}) itemInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
@@ -49,7 +50,7 @@ export class CpmAutocompleteComponent implements OnInit {
       const input = event.input;
       const value = event.value;
       if (!this.items.includes(this.selectedItem)) {
-        this.items.push(this.selectedItem);
+        // this.items.push(this.selectedItem);
       }
       if (input) {
         input.value = '';
@@ -67,7 +68,8 @@ export class CpmAutocompleteComponent implements OnInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    // this.items.push(event.option.value);
+    this.items.push(event.option.value);
+    this.onChange.emit(this.items);
     this.selectedItem = event.option.value;
     this.itemInput.nativeElement.value = '';
     this.itemCtrl.setValue(null);

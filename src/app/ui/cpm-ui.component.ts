@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Activity } from '../classes/IActivity.interface';
 
 @Component({
   selector: 'app-cpm-ui',
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CpmUiComponent implements OnInit {
   administrativeCosts = 0;
+  criticalPath: Activity[];
   events: string[] = [];
   opened: boolean;
 

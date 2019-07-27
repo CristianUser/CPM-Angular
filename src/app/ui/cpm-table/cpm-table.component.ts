@@ -8,11 +8,14 @@ import { Activity } from 'src/app/classes/IActivity.interface';
   styleUrls: ['./cpm-table.component.scss']
 })
 export class CpmTableComponent implements OnInit {
+  // onChange
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   activities: Activity[] = [
     // {
     //   id: 0,
     //   name: '',
+    //   duration: 0,
+    //   cost: 0,
     //   isSet: false
     // },
     // {
@@ -73,12 +76,20 @@ constructor() { }
 
   }
 
+  _onRequirementsChange($event, activity: Activity) {
+    this.addRequirementActivities(activity.id, $event);
+  }
+
   getActivityById(id: number): Activity {
     return this.activities.filter(val => val.id === id)[0];
   }
 
   removeActivityById(id: number): void {
     this.activities = this.activities.filter(val => val.id !== id);
+  }
+
+  addRequirementActivities(id: number, activities: Activity[]) {
+    this.activities[id].requirements = activities.map(val => val.id);
   }
 
   getRequirementActivities(id: number) {
@@ -98,16 +109,17 @@ constructor() { }
         {
           id: this.activities.length,
           name: '',
-          isSet: false
+          isSet: false,
+          duration: 0,
+          cost: 0
         }];
       }
     console.log(this.activities);
   }
 
-
   // this function change the value of the object into the array
- changeValue($event, data, path): void {
-    // this.activities[data][path] = $event.target.value;
+  changeValue($event, data, path): void {
+    // this.activities[data][path] = parseInt($event.target.value);
     this.activities[data].isSet = true;
     this.addMissingRow();
     this.totalDuration = this.getTotalDuration() ? this.getTotalDuration() : 0;
@@ -115,7 +127,7 @@ constructor() { }
 
   }
 
-  canRun(activity: Activity) {
+  canRun(activity: Activity): boolean {
     if (activity.requirements) {
       for (const req of activity.requirements) {
         if (!this.tempActivities.filter(temp => temp.id === req).length) {
@@ -129,9 +141,9 @@ constructor() { }
   isIncluded(activityIn: Activity) {
     // return this.tempActivities.filter(activity => activity == activityIn).length;
     return !!this.tempActivities.filter(temp => temp.id === activityIn.id).length;
-}
+  }
 
-getTotalDuration(): number {
+  getTotalDuration(): number {
   // let totalDuration = 0;
   this.criticPath = [];
   this.tempActivities = [];
@@ -144,7 +156,7 @@ getTotalDuration(): number {
     this.criticPath.push(activity);
     this.tempActivities.push(...this.activities.filter(activity => !this.isIncluded(activity)).filter(activity => this.canRun(activity)));
   }
-
+  this.tempActivities = []
   this.totalDuration = this.criticPath.reduce((total, current) => {
     return total += parseInt(current.duration);
 }, 0);
@@ -153,7 +165,6 @@ getTotalDuration(): number {
 }
 
 getTotalCost(): number {
-    this.activities = this.activities.slice(0, this.activities.length - 1);
     this.totalCost = this.activities.reduce((total, current) => {
       return total += current.cost * current.duration;
     }, 0) + (this.totalDuration *  this.administrativeCosts);

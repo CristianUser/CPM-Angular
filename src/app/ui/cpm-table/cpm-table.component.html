@@ -9,7 +9,7 @@
       <th mat-header-cell *matHeaderCellDef> Actividad </th>
       <td mat-cell *matCellDef="let element">
           <mat-form-field class=" px-3">
-            <input matInput placeholder="Nombre" (change)="changeValue($event, element.id, 'name')" [(ngModel)]="element.name">
+            <input matInput placeholder="Nombre" [(ngModel)]="element.name">
           </mat-form-field>
       </td>
       <td mat-footer-cell *matFooterCellDef> Total </td>
@@ -19,7 +19,11 @@
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Requisitos </th>
       <td mat-cell *matCellDef="let element">
-        <app-cpm-autocomplete [allItems]="activities" [setitems]="getRequirementActivities(element.id)"></app-cpm-autocomplete>
+        <app-cpm-autocomplete
+        [allItems]="activities"
+        [setitems]="getRequirementActivities(element.id)"
+        (onChange)="_onRequirementsChange($event, element)"
+        ></app-cpm-autocomplete>
       </td>
       <td mat-footer-cell *matFooterCellDef></td>
     </ng-container>
@@ -29,7 +33,7 @@
       <th mat-header-cell *matHeaderCellDef> Duracion </th>
       <td mat-cell *matCellDef="let element">
           <mat-form-field class=" px-3">
-            <input matInput placeholder="Duracion" type="number" (change)="changeValue($event, element.id, 'duration')" [(ngModel)]="element.duration">
+            <input matInput placeholder="Duracion" type="number" [min]="0" (change)="changeValue($event, element.id, 'duration')" [(ngModel)]="element.duration">
           </mat-form-field>
       </td>
       <td mat-footer-cell *matFooterCellDef>{{ totalDuration }}</td>
@@ -40,7 +44,7 @@
       <th mat-header-cell *matHeaderCellDef> Costo/P </th>
       <td mat-cell *matCellDef="let element">
           <mat-form-field class=" px-3">
-            <input matInput placeholder="Costo" type='text' mask="comma_separator" (change)="changeValue($event, element.id, 'cost')" [(ngModel)]="element.cost">
+            <input matInput placeholder="Costo" type='text' [min]="0" mask="comma_separator" (change)="changeValue($event, element.id, 'cost')" [(ngModel)]="element.cost">
           </mat-form-field>
       </td>
       <td mat-footer-cell *matFooterCellDef> {{ totalCost | mask: 'comma_separator' }}</td>
