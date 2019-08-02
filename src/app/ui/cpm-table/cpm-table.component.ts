@@ -18,51 +18,51 @@ export class CpmTableComponent implements OnInit {
     //   cost: 0,
     //   isSet: false
     // },
-    {
-        id: 0,
-        name: 'A',
-        duration: 10,
-        cost: 100000,
-        isSet: true
-    },
-    {
-        id: 1,
-        name: 'B',
-        duration: 5,
-        cost: 400000,
-        isSet: true
-    },
-    {
-        id: 2,
-        name: 'C',
-        duration: 6,
-        requirements: [0, 1],
-        cost: 100000
-    },
-    {
-        id: 3,
-        name: 'F',
-        duration: 8,
-        requirements: [2],
-        cost: 150000,
-        isSet: true
-    },
-    {
-        id: 4,
-        name: 'G',
-        duration: 10,
-        requirements: [2],
-        cost: 200000,
-        isSet: true
-    },
-    {
-        id: 5,
-        name: 'H',
-        duration: 2,
-        requirements: [3, 4],
-        cost: 50000,
-        isSet: true
-    }
+    // {
+    //     id: 0,
+    //     name: 'A',
+    //     duration: 10,
+    //     cost: 100000,
+    //     isSet: true
+    // },
+    // {
+    //     id: 1,
+    //     name: 'B',
+    //     duration: 5,
+    //     cost: 400000,
+    //     isSet: true
+    // },
+    // {
+    //     id: 2,
+    //     name: 'C',
+    //     duration: 6,
+    //     requirements: [0, 1],
+    //     cost: 100000
+    // },
+    // {
+    //     id: 3,
+    //     name: 'F',
+    //     duration: 8,
+    //     requirements: [2],
+    //     cost: 150000,
+    //     isSet: true
+    // },
+    // {
+    //     id: 4,
+    //     name: 'G',
+    //     duration: 10,
+    //     requirements: [2],
+    //     cost: 200000,
+    //     isSet: true
+    // },
+    // {
+    //     id: 5,
+    //     name: 'H',
+    //     duration: 2,
+    //     requirements: [3, 4],
+    //     cost: 50000,
+    //     isSet: true
+    // }
 ];
   tempActivities: Activity[] = [];
   groupedActivities: Array<Activity[]> = [];
