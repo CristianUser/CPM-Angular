@@ -11,12 +11,17 @@ export class CpmUiComponent implements OnInit {
   criticalPath: Activity[];
   events: string[] = [];
   opened: boolean;
+  budget: Array<Activity[]> = [];
 
   shouldRun = [/(^|\.)plnkr\.co$/, /(^|\.)stackblitz\.io$/].some(h => h.test(window.location.host));
 
   constructor() { }
 
   ngOnInit() {
+  }
+  _onResults($event) {
+    console.log($event)
+    this.budget = $event.budget;
   }
 
 }

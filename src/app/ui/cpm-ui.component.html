@@ -17,7 +17,8 @@
                 </mat-form-field>
             </div>
             <div fxLayout="row" class="m-3">
-                <app-cpm-table [administrativeCosts]="administrativeCosts"></app-cpm-table>
+                <app-cpm-table (results)="_onResults($event)" [administrativeCosts]="administrativeCosts"></app-cpm-table>
+                <app-cpm-results [budget]="budget"></app-cpm-results>
             </div>
         </div>
     </mat-sidenav-content>

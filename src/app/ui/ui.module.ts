@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CpmUiComponent } from './cpm-ui.component';
 import { HeaderToolbarComponent } from './header-toolbar/header-toolbar.component';
 import { CpmAutocompleteComponent } from './cpm-table/cpm-autocomplete/cpm-autocomplete.component';
+import { CpmResultsComponent } from './cpm-results/cpm-results.component';
 
 const routes: Routes = [
   { path: '', component: CpmUiComponent}
@@ -16,7 +17,8 @@ const routes: Routes = [
     CpmTableComponent,
     CpmUiComponent,
     HeaderToolbarComponent,
-    CpmAutocompleteComponent
+    CpmAutocompleteComponent,
+    CpmResultsComponent
   ],
   imports: [
     CommonModule,
